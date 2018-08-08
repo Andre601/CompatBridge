@@ -940,7 +940,7 @@ public enum CompMaterial {
 	public final ItemStack toItem(int amount) {
 		final Material mat = toMaterial();
 
-		return VersionResolver.MC_1_13 ? new ItemStack(mat, amount) : new ItemStack(mat, amount, (byte) data);	}
+		return VersionResolver.isAtLeast1_13() ? new ItemStack(mat, amount) : new ItemStack(mat, amount, (byte) data);	}
 
 	/**
 	 * Returns the {@link Material} representation of our material.
@@ -973,7 +973,7 @@ public enum CompMaterial {
 	 * @return -see above-
 	 */
 	public final boolean is(ItemStack comp) {
-		if (VersionResolver.MC_1_13)
+		if (VersionResolver.isAtLeast1_13())
 			return comp.getType() == toMaterial();
 
 		if (comp.getType() == toMaterial() && comp.getData().getData() == data)
@@ -1226,7 +1226,7 @@ public enum CompMaterial {
 	 * @return
 	 */
 	public static ItemStack makeWool(CompDye color, int amount) {
-		if (VersionResolver.MC_1_13) {
+		if (VersionResolver.isAtLeast1_13()) {
 			return new ItemStack(Material.valueOf(color.name() + "_WOOL"), amount);
 
 		} else {

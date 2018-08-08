@@ -43,7 +43,7 @@ public final class CompatBridge {
 	 * @return
 	 */
 	public static FallingBlock spawnFallingBlock(World w, Location l, Material mat, byte data) {
-		if (VersionResolver.MC_1_13)
+		if (VersionResolver.isAtLeast1_13())
 			return w.spawnFallingBlock(l, Bukkit.getUnsafe().fromLegacy(mat, data));
 		else {
 			try {
@@ -86,7 +86,7 @@ public final class CompatBridge {
 	 * @param data
 	 */
 	public static void setTypeAndData(Block block, Material mat, byte data, boolean physics) {
-		if (VersionResolver.MC_1_13) {
+		if (VersionResolver.isAtLeast1_13()) {
 			block.setType(mat);
 			block.setBlockData( Bukkit.getUnsafe().fromLegacy(mat, data), physics );
 

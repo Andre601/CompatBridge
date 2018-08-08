@@ -90,13 +90,13 @@ public enum CompSound {
 	 */
 	public static final Sound convert(String original) {
 
-		if (VersionResolver.MC_1_13) {
+		if (VersionResolver.isAtLeast1_13()) {
 			for (final CompSound compSound : CompSound.values())
 				if (original.equalsIgnoreCase(compSound.name()) || original.equalsIgnoreCase(compSound.legacyName) || compSound.modernName != null && original.equalsIgnoreCase(compSound.modernName))
 					return Sound.valueOf(compSound.modernName != null ? compSound.modernName : compSound.name());
 		}
 
-		if (VersionResolver.MC_1_9) {
+		if (VersionResolver.isAtLeast1_9()) {
 			for (final CompSound s : CompSound.values())
 				if (original.equalsIgnoreCase(s.legacyName))
 					return Sound.valueOf(s.toString());
