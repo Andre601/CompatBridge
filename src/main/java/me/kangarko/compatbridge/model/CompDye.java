@@ -21,6 +21,7 @@ public enum CompDye {
 	RED,
 	BLACK;
 
+	private final String legacyName;
 	private final DyeColor dye;
 
 	private CompDye() {
@@ -28,6 +29,8 @@ public enum CompDye {
 	}
 
 	private CompDye(String name) {
+		this.legacyName = name;
+
 		DyeColor color;
 
 		try {
@@ -49,6 +52,14 @@ public enum CompDye {
 
 	public static final CompDye fromWoolData(byte data) {
 		return fromDye(DyeColor.getByWoolData(data));
+	}
+
+	public static final CompDye fromName(String name) {
+		for (final CompDye comp : values())
+			if (comp.toString().equalsIgnoreCase(name) || comp.legacyName.equalsIgnoreCase(name))
+				return comp;
+
+		throw new RuntimeException("Could not get CompDye from name: " + name);
 	}
 
 	public static final CompDye fromDye(DyeColor dye) {
