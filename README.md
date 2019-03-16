@@ -19,7 +19,7 @@ We use Maven to compile it. See below for a step-by-step tutorial.
 
 0. Set the following in your plugin.yml file:
 ```yaml
-		api-version: 1.13
+    api-version: 1.13
 ```
 
 1. Place this to your repositories:
