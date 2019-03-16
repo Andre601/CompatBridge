@@ -12,7 +12,7 @@
 > NOTICE: Requires 'api-version: 1.13' set in your plugin.yml!
 
 ## Usage
-This library allows you to develop plugin using the latest 1.13 API libraries while maintaining backward compatibility down to Minecraft 1.7.10.
+This library allows you to develop plugin using the latest Minecraft API while maintaining backward compatibility down to Minecraft 1.7.10.
 
 ## Installation
 We use Maven to compile it. See below for a step-by-step tutorial.
