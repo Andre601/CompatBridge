@@ -37,7 +37,7 @@ We use Maven to compile it. See below for a step-by-step tutorial.
 <dependency>
 	<groupId>com.github.kangarko</groupId>
 	<artifactId>CompatBridge</artifactId>
-	<version>{COMMIT}</version> <!-- change to the latest version -->
+	<version>{COMMIT}</version>
 	<scope>compile</scope>
 </dependency>
 ```
