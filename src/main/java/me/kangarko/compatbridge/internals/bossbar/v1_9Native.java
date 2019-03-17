@@ -1,4 +1,4 @@
-package me.kangarko.compatbridge.bar;
+package me.kangarko.compatbridge.internals.bossbar;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,11 +10,11 @@ import org.bukkit.entity.Player;
 /**
  * Represents the native boss bar api for Minecraft 1.9 and newer
  */
-class v1_9_bukkit extends BarDragonEntity {
+class v1_9Native extends EnderDragonEntity {
 
 	private final BossBar bar;
 
-	public v1_9_bukkit(String name, Location loc) {
+	public v1_9Native(String name, Location loc) {
 		super(name, loc);
 
 		bar = Bukkit.createBossBar(name, BarColor.PINK, BarStyle.SOLID);

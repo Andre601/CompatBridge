@@ -1,4 +1,4 @@
-package me.kangarko.compatbridge.utils;
+package me.kangarko.compatbridge.model;
 
 import java.util.Objects;
 
@@ -13,7 +13,7 @@ import me.kangarko.compatbridge.CompatBridge;
  * We apply scoreboard tags to ensure permanent metadata storage
  * if supported, otherwise it is lost on reload
  */
-public class MetadataUtil {
+public class CompMetadata {
 
 	/**
 	 * The tag delimiter
@@ -21,7 +21,7 @@ public class MetadataUtil {
 	private final static String DELIMITER = "%-%";
 
 	// Static access
-	private MetadataUtil() {
+	private CompMetadata() {
 	}
 
 	/**

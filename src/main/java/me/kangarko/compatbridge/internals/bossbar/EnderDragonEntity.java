@@ -1,4 +1,4 @@
-package me.kangarko.compatbridge.bar;
+package me.kangarko.compatbridge.internals.bossbar;
 
 import org.bukkit.Location;
 
@@ -11,7 +11,7 @@ import me.kangarko.compatbridge.utils.ReflectionUtil;
  *
  * Typically you dont have to use this at all.
  */
-abstract class BarDragonEntity {
+abstract class EnderDragonEntity {
 
 	private float maxHealth = 200;
 	private int x;
@@ -31,7 +31,7 @@ abstract class BarDragonEntity {
 	protected CompBarColor barColor;
 	protected CompBarStyle barStyle;
 
-	BarDragonEntity(String name, Location loc, int percent) {
+	EnderDragonEntity(String name, Location loc, int percent) {
 		this.name = name;
 		this.x = loc.getBlockX();
 		this.y = loc.getBlockY();
@@ -40,7 +40,7 @@ abstract class BarDragonEntity {
 		this.world = ReflectionUtil.getHandleWorld(loc.getWorld());
 	}
 
-	BarDragonEntity(String name, Location loc) {
+	EnderDragonEntity(String name, Location loc) {
 		this.name = name;
 		this.x = loc.getBlockX();
 		this.y = loc.getBlockY();

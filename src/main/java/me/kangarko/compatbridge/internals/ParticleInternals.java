@@ -1,4 +1,4 @@
-package me.kangarko.compatbridge.model;
+package me.kangarko.compatbridge.internals;
 
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -12,9 +12,11 @@ import me.kangarko.compatbridge.utils.ReflectionUtil;
 /**
  * Reflection class to support packet sending of particles
  *
- * @see CompatBridge for methods
+ * @deprecated internal use only, please use {@link CompatBridge}
+ * to call methods from this class for best performance
  */
-enum ParticleBridge {
+@Deprecated
+public enum ParticleInternals {
 
 	HUGE_EXPLOSION("hugeexplosion", "EXPLOSION_HUGE"),
 	LARGE_EXPLODE("largeexplode", "EXPLOSION_LARGE"),
@@ -33,28 +35,28 @@ enum ParticleBridge {
 	SNOWBALL_POOF("snowballpoof", "SNOWBALL"),
 	ANGRY_VILLAGER("angryVillager", "VILLAGER_ANGRY"),
 	HAPPY_VILLAGER("happyVillager", "VILLAGER_HAPPY"),
-	EXPLOSION_NORMAL(ParticleBridge.EXPLODE.name),
-	EXPLOSION_LARGE(ParticleBridge.LARGE_EXPLODE.name),
-	EXPLOSION_HUGE(ParticleBridge.HUGE_EXPLOSION.name),
+	EXPLOSION_NORMAL(ParticleInternals.EXPLODE.name),
+	EXPLOSION_LARGE(ParticleInternals.LARGE_EXPLODE.name),
+	EXPLOSION_HUGE(ParticleInternals.HUGE_EXPLOSION.name),
 	FIREWORKS_SPARK("fireworksSpark"),
-	WATER_BUBBLE(ParticleBridge.BUBBLE.name),
-	WATER_SPLASH(ParticleBridge.SPLASH.name),
+	WATER_BUBBLE(ParticleInternals.BUBBLE.name),
+	WATER_SPLASH(ParticleInternals.SPLASH.name),
 	WATER_WAKE("wake"),
-	SUSPENDED(ParticleBridge.SUSPEND.name),
-	SUSPENDED_DEPTH(ParticleBridge.DEPTH_SUSPEND.name),
+	SUSPENDED(ParticleInternals.SUSPEND.name),
+	SUSPENDED_DEPTH(ParticleInternals.DEPTH_SUSPEND.name),
 	CRIT("crit"),
-	CRIT_MAGIC(ParticleBridge.MAGIC_CRIT.name),
+	CRIT_MAGIC(ParticleInternals.MAGIC_CRIT.name),
 	SMOKE_NORMAL("smoke"),
-	SMOKE_LARGE(ParticleBridge.LARGE_SMOKE.name),
+	SMOKE_LARGE(ParticleInternals.LARGE_SMOKE.name),
 	SPELL("spell"),
-	SPELL_INSTANT(ParticleBridge.INSTANT_SPELL.name),
-	SPELL_MOB(ParticleBridge.MOB_SPELL.name, true),
-	SPELL_MOB_AMBIENT(ParticleBridge.MOB_SPELL_AMBIENT.name),
-	SPELL_WITCH(ParticleBridge.WITCH_MAGIC.name),
+	SPELL_INSTANT(ParticleInternals.INSTANT_SPELL.name),
+	SPELL_MOB(ParticleInternals.MOB_SPELL.name, true),
+	SPELL_MOB_AMBIENT(ParticleInternals.MOB_SPELL_AMBIENT.name),
+	SPELL_WITCH(ParticleInternals.WITCH_MAGIC.name),
 	DRIP_WATER("dripWater"),
 	DRIP_LAVA("dripLava"),
-	VILLAGER_ANGRY(ParticleBridge.ANGRY_VILLAGER.name),
-	VILLAGER_HAPPY(ParticleBridge.HAPPY_VILLAGER.name),
+	VILLAGER_ANGRY(ParticleInternals.ANGRY_VILLAGER.name),
+	VILLAGER_HAPPY(ParticleInternals.HAPPY_VILLAGER.name),
 	TOWN_AURA("townaura"),
 	NOTE("note", true),
 	PORTAL("portal"),
@@ -91,21 +93,21 @@ enum ParticleBridge {
 	private String enumValue;
 	private boolean hasColor;
 
-	private ParticleBridge(final String particleName, final String enumValue, final boolean hasColor) {
+	private ParticleInternals(final String particleName, final String enumValue, final boolean hasColor) {
 		this.name = particleName;
 		this.enumValue = enumValue;
 		this.hasColor = hasColor;
 	}
 
-	private ParticleBridge(final String particleName, final String enumValue) {
+	private ParticleInternals(final String particleName, final String enumValue) {
 		this(particleName, enumValue, false);
 	}
 
-	private ParticleBridge(final String particleName) {
+	private ParticleInternals(final String particleName) {
 		this(particleName, null);
 	}
 
-	private ParticleBridge(final String particleName, final boolean hasColor) {
+	private ParticleInternals(final String particleName, final boolean hasColor) {
 		this(particleName, null, hasColor);
 	}
 
@@ -150,7 +152,7 @@ enum ParticleBridge {
 			if (nmsEnumParticle == null)
 				nmsEnumParticle = ReflectionUtil.getNMSClass("EnumParticle");
 
-			if (this == ParticleBridge.BLOCK_CRACK) {
+			if (this == ParticleInternals.BLOCK_CRACK) {
 				int id = 0;
 				int data = 0;
 				if (extra.length > 0)
@@ -163,7 +165,7 @@ enum ParticleBridge {
 			}
 
 			try {
-				packet = ParticleBridge.nmsPacketPlayOutParticle.getConstructor(ParticleBridge.nmsEnumParticle, Boolean.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Integer.TYPE, int[].class).newInstance(ReflectionUtil.getEnum(ParticleBridge.nmsEnumParticle.getName() + "." + ((this.enumValue != null) ? this.enumValue : this.name().toUpperCase())), true, (float) location.getX(), (float) location.getY(), (float) location.getZ(), offsetX, offsetY, offsetZ, speed, count, extra);
+				packet = ParticleInternals.nmsPacketPlayOutParticle.getConstructor(ParticleInternals.nmsEnumParticle, Boolean.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Integer.TYPE, int[].class).newInstance(ReflectionUtil.getEnum(ParticleInternals.nmsEnumParticle.getName() + "." + ((this.enumValue != null) ? this.enumValue : this.name().toUpperCase())), true, (float) location.getX(), (float) location.getY(), (float) location.getZ(), offsetX, offsetY, offsetZ, speed, count, extra);
 			} catch (final ReflectiveOperationException ex) {
 				return;
 			}
@@ -174,7 +176,7 @@ enum ParticleBridge {
 
 			String name = this.name;
 
-			if (this == ParticleBridge.BLOCK_CRACK || this == ParticleBridge.ITEM_CRACK || this == ParticleBridge.BLOCK_DUST) {
+			if (this == ParticleInternals.BLOCK_CRACK || this == ParticleInternals.ITEM_CRACK || this == ParticleInternals.BLOCK_DUST) {
 				int id2 = 0;
 				int data2 = 0;
 
@@ -188,7 +190,7 @@ enum ParticleBridge {
 			}
 
 			try {
-				packet = ParticleBridge.nmsPacketPlayOutParticle.getConstructor(String.class, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Integer.TYPE).newInstance(name, (float) location.getX(), (float) location.getY(), (float) location.getZ(), offsetX, offsetY, offsetZ, speed, count);
+				packet = ParticleInternals.nmsPacketPlayOutParticle.getConstructor(String.class, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Float.TYPE, Integer.TYPE).newInstance(name, (float) location.getX(), (float) location.getY(), (float) location.getZ(), offsetX, offsetY, offsetZ, speed, count);
 			} catch (final ReflectiveOperationException ex) {
 				return;
 			}

@@ -1,4 +1,4 @@
-package me.kangarko.compatbridge.bar;
+package me.kangarko.compatbridge.internals.bossbar;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -31,10 +31,10 @@ import me.kangarko.compatbridge.utils.ReflectionUtil;
  *
  * http://forums.bukkit.org/threads/tutorial-utilizing-the-boss-health-bar.158018/page-2#post-1760928
  *
- * @deprecated please use our main compat class to call this
+ * @deprecated internal use only, please use {@link CompatBridge} to set the Boss bar
  */
 @Deprecated
-public class BarBridge implements Listener {
+public class BossBarInternals implements Listener {
 
 	/**
 	 * Synchronize on the main thread
@@ -54,7 +54,7 @@ public class BarBridge implements Listener {
 	/**
 	 * The player currently viewing the boss bar
 	 */
-	private static HashMap<UUID, BarDragonEntity> players = new HashMap<>();
+	private static HashMap<UUID, EnderDragonEntity> players = new HashMap<>();
 
 	/**
 	 * Currently running timers (for temporary boss bars)
@@ -64,16 +64,16 @@ public class BarBridge implements Listener {
 	/**
 	 * The singleton instance
 	 */
-	private static BarBridge singleton = null;
+	private static BossBarInternals singleton = null;
 
 	// Singleton
-	private BarBridge() {
+	private BossBarInternals() {
 	}
 
 	// Initialize reflection and start listening to events
 	static {
 		if (ReflectionUtil.isProtocolHack()) {
-			entityClass = v1_8Fake.class;
+			entityClass = v1_8Hack.class;
 			isBelowGround = false;
 
 		} else {
@@ -88,13 +88,13 @@ public class BarBridge implements Listener {
 				isBelowGround = false;
 
 			} else if (MinecraftVersion.newerThan(V.v1_8))
-				entityClass = v1_9_bukkit.class;
+				entityClass = v1_9Native.class;
 		}
 
 		Objects.requireNonNull(entityClass, "CompatBridge does not support Boss bar on MC version " + MinecraftVersion.getServerVersion() + "!");
 
 		if (singleton == null && CompatBridge.getPlugin().isEnabled()) {
-			singleton = new BarBridge();
+			singleton = new BossBarInternals();
 
 			Bukkit.getPluginManager().registerEvents(singleton, CompatBridge.getPlugin());
 
@@ -152,9 +152,9 @@ public class BarBridge implements Listener {
 		if (!hasBar(player))
 			return;
 
-		final BarDragonEntity oldDragon = getDragon(player, "");
+		final EnderDragonEntity oldDragon = getDragon(player, "");
 
-		if (oldDragon instanceof v1_9_bukkit)
+		if (oldDragon instanceof v1_9Native)
 			return;
 
 		CompatUtils.runDelayed(2, () -> {
@@ -168,7 +168,7 @@ public class BarBridge implements Listener {
 
 			players.remove(player.getUniqueId());
 
-			final BarDragonEntity dragon = addDragon(player, loc, message);
+			final EnderDragonEntity dragon = addDragon(player, loc, message);
 			dragon.health = health;
 
 			sendDragon(dragon, player);
@@ -195,7 +195,7 @@ public class BarBridge implements Listener {
 		if (hasBar(player))
 			removeBar(player);
 
-		final BarDragonEntity dragon = getDragon(player, message);
+		final EnderDragonEntity dragon = getDragon(player, message);
 
 		dragon.name = cleanMessage(message);
 		dragon.health = (percent / 100f) * dragon.getMaxHealth();
@@ -232,7 +232,7 @@ public class BarBridge implements Listener {
 		if (hasBar(player))
 			removeBar(player);
 
-		final BarDragonEntity dragon = getDragon(player, message);
+		final EnderDragonEntity dragon = getDragon(player, message);
 
 		dragon.name = cleanMessage(message);
 		dragon.health = dragon.getMaxHealth();
@@ -247,7 +247,7 @@ public class BarBridge implements Listener {
 		cancelTimer(player);
 
 		timers.put(player.getUniqueId(), CompatUtils.runTimer(20, 20, () -> {
-			final BarDragonEntity drag = getDragon(player, "");
+			final EnderDragonEntity drag = getDragon(player, "");
 			drag.health -= dragonHealthMinus;
 
 			if (drag.health <= 1) {
@@ -265,10 +265,10 @@ public class BarBridge implements Listener {
 		if (!hasBar(player))
 			return;
 
-		final BarDragonEntity dragon = getDragon(player, "");
+		final EnderDragonEntity dragon = getDragon(player, "");
 
-		if (dragon instanceof v1_9_bukkit) {
-			((v1_9_bukkit) dragon).removePlayer(player);
+		if (dragon instanceof v1_9Native) {
+			((v1_9Native) dragon).removePlayer(player);
 		} else
 			ReflectionUtil.sendPacket(player, getDragon(player, "").getDestroyPacket());
 
@@ -296,9 +296,9 @@ public class BarBridge implements Listener {
 		}
 	}
 
-	private static void sendDragon(BarDragonEntity dragon, Player player) {
-		if (dragon instanceof v1_9_bukkit) {
-			final v1_9_bukkit bar = (v1_9_bukkit) dragon;
+	private static void sendDragon(EnderDragonEntity dragon, Player player) {
+		if (dragon instanceof v1_9Native) {
+			final v1_9Native bar = (v1_9Native) dragon;
 
 			bar.addPlayer(player);
 			bar.setProgress(dragon.health / dragon.getMaxHealth());
@@ -308,18 +308,18 @@ public class BarBridge implements Listener {
 		}
 	}
 
-	private static BarDragonEntity getDragon(Player player, String message) {
+	private static EnderDragonEntity getDragon(Player player, String message) {
 		if (hasBar(player))
 			return players.get(player.getUniqueId());
 
 		return addDragon(player, cleanMessage(message));
 	}
 
-	private static BarDragonEntity addDragon(Player player, String message) {
-		final BarDragonEntity dragon = newDragon(message, getDragonLocation(player.getLocation()));
+	private static EnderDragonEntity addDragon(Player player, String message) {
+		final EnderDragonEntity dragon = newDragon(message, getDragonLocation(player.getLocation()));
 
-		if (dragon instanceof v1_9_bukkit)
-			((v1_9_bukkit) dragon).addPlayer(player);
+		if (dragon instanceof v1_9Native)
+			((v1_9Native) dragon).addPlayer(player);
 
 		else
 			ReflectionUtil.sendPacket(player, dragon.getSpawnPacket());
@@ -329,11 +329,11 @@ public class BarBridge implements Listener {
 		return dragon;
 	}
 
-	private static BarDragonEntity addDragon(Player player, Location loc, String message) {
-		final BarDragonEntity dragon = newDragon(message, getDragonLocation(loc));
+	private static EnderDragonEntity addDragon(Player player, Location loc, String message) {
+		final EnderDragonEntity dragon = newDragon(message, getDragonLocation(loc));
 
-		if (dragon instanceof v1_9_bukkit)
-			((v1_9_bukkit) dragon).addPlayer(player);
+		if (dragon instanceof v1_9Native)
+			((v1_9Native) dragon).addPlayer(player);
 
 		else
 			ReflectionUtil.sendPacket(player, dragon.getSpawnPacket());
@@ -374,12 +374,12 @@ public class BarBridge implements Listener {
 		return null;
 	}
 
-	private static BarDragonEntity newDragon(String message, Location loc) {
+	private static EnderDragonEntity newDragon(String message, Location loc) {
 		synchronized (LOCK) {
-			BarDragonEntity fakeDragon = null;
+			EnderDragonEntity fakeDragon = null;
 
 			try {
-				fakeDragon = (BarDragonEntity) entityClass.getConstructor(String.class, Location.class).newInstance(message, loc);
+				fakeDragon = (EnderDragonEntity) entityClass.getConstructor(String.class, Location.class).newInstance(message, loc);
 			} catch (final ReflectiveOperationException e) {
 				e.printStackTrace();
 			}

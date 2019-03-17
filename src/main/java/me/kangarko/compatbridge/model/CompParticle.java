@@ -10,6 +10,7 @@ import org.bukkit.material.MaterialData;
 
 import lombok.Getter;
 import me.kangarko.compatbridge.CompatBridge;
+import me.kangarko.compatbridge.internals.ParticleInternals;
 import me.kangarko.compatbridge.utils.MinecraftVersion;
 import me.kangarko.compatbridge.utils.MinecraftVersion.V;
 import me.kangarko.compatbridge.utils.ReflectionUtil;
@@ -145,7 +146,7 @@ public enum CompParticle {
 				loc.getWorld().spawnParticle(p, loc, 1, 0D, 0D, 0D, extra != null ? extra : 0D);
 			}
 		} else {
-			final ParticleBridge p = ReflectionUtil.lookupEnumSilent(ParticleBridge.class, toString());
+			final ParticleInternals p = ReflectionUtil.lookupEnumSilent(ParticleInternals.class, toString());
 
 			if (p != null)
 				p.send(loc, extra != null ? extra.floatValue() : 0F);
@@ -169,7 +170,7 @@ public enum CompParticle {
 					loc.getWorld().spawnParticle(p, loc, 1, data.getMaterial().getNewData((byte) data.getData()));
 
 		} else {
-			final ParticleBridge p = ReflectionUtil.lookupEnumSilent(ParticleBridge.class, toString());
+			final ParticleInternals p = ReflectionUtil.lookupEnumSilent(ParticleInternals.class, toString());
 
 			if (p != null)
 				p.sendColor(loc, DyeColor.getByWoolData((byte) data.getData()).getColor());
@@ -202,7 +203,7 @@ public enum CompParticle {
 				pl.spawnParticle(p, loc, 1, 0D, 0D, 0D, extra != null ? extra : 0D);
 
 		} else {
-			final ParticleBridge p = ReflectionUtil.lookupEnumSilent(ParticleBridge.class, toString());
+			final ParticleInternals p = ReflectionUtil.lookupEnumSilent(ParticleInternals.class, toString());
 
 			if (p != null)
 				p.send(pl, loc, extra != null ? extra.floatValue() : 0F);

@@ -1,4 +1,4 @@
-package me.kangarko.compatbridge.bar;
+package me.kangarko.compatbridge.internals.bossbar;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,12 +10,12 @@ import me.kangarko.compatbridge.utils.ReflectionUtil;
 /**
  * Represents a fake dragon entity for Minecraft 1.8 protocol hack
  */
-class v1_8Fake extends BarDragonEntity {
+class v1_8Hack extends EnderDragonEntity {
 
 	private Object dragon;
 	private int id;
 
-	public v1_8Fake(String name, Location loc) {
+	public v1_8Hack(String name, Location loc) {
 		super(name, loc);
 	}
 

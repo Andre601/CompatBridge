@@ -66,11 +66,12 @@ import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import me.kangarko.compatbridge.bar.BarBridge;
+import me.kangarko.compatbridge.internals.ChatInternals;
+import me.kangarko.compatbridge.internals.NBTInternals;
+import me.kangarko.compatbridge.internals.bossbar.BossBarInternals;
 import me.kangarko.compatbridge.model.CompBarColor;
 import me.kangarko.compatbridge.model.CompBarStyle;
 import me.kangarko.compatbridge.model.CompMaterial;
-import me.kangarko.compatbridge.nbt.NBTCompatibilityTester;
 import me.kangarko.compatbridge.utils.CompatUtils;
 import me.kangarko.compatbridge.utils.MinecraftVersion;
 import me.kangarko.compatbridge.utils.MinecraftVersion.V;
@@ -298,7 +299,7 @@ public class CompatBridge {
 				hasAdvancements = false;
 			}
 
-			NBTCompatibilityTester.checkCompatible();
+			NBTInternals.checkCompatible();
 
 		} catch (final ReflectiveOperationException ex) {
 			throw new UnsupportedOperationException("Failed to set up reflection, " + getPlugin().getName() + " won't work properly", ex);
@@ -618,7 +619,7 @@ public class CompatBridge {
 			if (hasPlayerTitleAPI && !forceNms)
 				player.sendTitle(CompatUtils.colorize(title), CompatUtils.colorize(subtitle));
 			else
-				ChatBridge.sendTitle(player, fadeIn, stay, fadeOut, title, subtitle);
+				ChatInternals.sendTitle(player, fadeIn, stay, fadeOut, title, subtitle);
 		} else {
 			CompatUtils.tell(player, title);
 			CompatUtils.tell(player, subtitle);
@@ -635,7 +636,7 @@ public class CompatBridge {
 		if (hasPlayerTitleAPI)
 			player.resetTitle();
 		else
-			ChatBridge.resetTitle(player);
+			ChatInternals.resetTitle(player);
 	}
 
 	/**
@@ -652,7 +653,7 @@ public class CompatBridge {
 	public static void sendTablist(Player player, String header, String footer) {
 		Validate.isTrue(MinecraftVersion.newerThan(V.v1_7), "Sending tab list requires Minecraft 1.8x or newer!");
 
-		ChatBridge.sendTablist(player, header, footer);
+		ChatInternals.sendTablist(player, header, footer);
 	}
 
 	/**
@@ -674,7 +675,7 @@ public class CompatBridge {
 			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent( CompatUtils.colorize(text) ));
 
 		} catch (final NoSuchMethodError err) {
-			ChatBridge.sendActionBar(player, text);
+			ChatInternals.sendActionBar(player, text);
 		}
 	}
 
@@ -699,7 +700,7 @@ public class CompatBridge {
 	 * @param style
 	 */
 	public static void sendBossbarPercent(Player player, String message, float percent, CompBarColor color, CompBarStyle style) {
-		BarBridge.setMessage(player, message, percent, color, style);
+		BossBarInternals.setMessage(player, message, percent, color, style);
 	}
 
 	/**
@@ -723,7 +724,7 @@ public class CompatBridge {
 	 * @param style
 	 */
 	public static void sendBossbarTimed(Player player, String message, int seconds, CompBarColor color, CompBarStyle style) {
-		BarBridge.setMessage(player, message, seconds, color, style);
+		BossBarInternals.setMessage(player, message, seconds, color, style);
 	}
 
 	/**

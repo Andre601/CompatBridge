@@ -1,4 +1,4 @@
-package me.kangarko.compatbridge.utils;
+package me.kangarko.compatbridge.model;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -14,15 +14,16 @@ import org.bukkit.inventory.meta.SpawnEggMeta;
 
 import lombok.NonNull;
 import me.kangarko.compatbridge.CompatBridge;
-import me.kangarko.compatbridge.model.CompMaterial;
 import me.kangarko.compatbridge.nbt.NBTCompound;
 import me.kangarko.compatbridge.nbt.NBTItem;
+import me.kangarko.compatbridge.utils.MinecraftVersion;
+import me.kangarko.compatbridge.utils.ReflectionUtil;
 import me.kangarko.compatbridge.utils.MinecraftVersion.V;
 
 /**
  * Utility class for manipulating Monster Eggs
  */
-public final class MobEggUtil {
+public final class CompMonsterEgg {
 
 	/**
 	 * Our universal tag we use to mark our eggs
@@ -36,7 +37,7 @@ public final class MobEggUtil {
 	public static boolean acceptUnsafeEggs = false;
 
 	// Prevent new instance, always call static methods
-	private MobEggUtil() {
+	private CompMonsterEgg() {
 	}
 
 	/**

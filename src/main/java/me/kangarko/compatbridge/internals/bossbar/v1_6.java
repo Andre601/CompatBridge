@@ -1,4 +1,4 @@
-package me.kangarko.compatbridge.bar;
+package me.kangarko.compatbridge.internals.bossbar;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -11,7 +11,7 @@ import me.kangarko.compatbridge.utils.ReflectionUtil;
 /**
  * Represents a fake dragon entity for Minecraft 1.6.x
  */
-class v1_6 extends BarDragonEntity {
+class v1_6 extends EnderDragonEntity {
 
 	private static final Integer EntityID = 6000;
 

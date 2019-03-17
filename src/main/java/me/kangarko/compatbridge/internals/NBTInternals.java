@@ -1,13 +1,25 @@
-package me.kangarko.compatbridge.nbt;
+package me.kangarko.compatbridge.internals;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import me.kangarko.compatbridge.nbt.NBTCompound;
+import me.kangarko.compatbridge.nbt.NBTEntity;
+import me.kangarko.compatbridge.nbt.NBTItem;
+import me.kangarko.compatbridge.nbt.NBTList;
+import me.kangarko.compatbridge.nbt.NBTListCompound;
+import me.kangarko.compatbridge.nbt.NBTTileEntity;
+import me.kangarko.compatbridge.nbt.NBTType;
 import me.kangarko.compatbridge.utils.MinecraftVersion;
+
 /**
  * Utility class to test NBT library's compatibility
+ *
+ * @deprecated internal use only, please use {@link NBTEntity}, {@link NBTTileEntity} and {@link NBTItem} to
+ * modify entity and items
  */
-public class NBTCompatibilityTester {
+@Deprecated
+public class NBTInternals {
 
 	// Holds all test keys
 	private static final String STRING_KEY = "stringTest";

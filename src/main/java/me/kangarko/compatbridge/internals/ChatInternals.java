@@ -1,4 +1,4 @@
-package me.kangarko.compatbridge;
+package me.kangarko.compatbridge.internals;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import me.kangarko.compatbridge.CompatBridge;
 import me.kangarko.compatbridge.utils.CompatUtils;
 import me.kangarko.compatbridge.utils.MinecraftVersion;
 import me.kangarko.compatbridge.utils.MinecraftVersion.V;
@@ -18,9 +19,11 @@ import me.kangarko.compatbridge.utils.ReflectionUtil.ReflectionException;
 /**
  * Reflection class for handling chat-related methods
  *
- * See {@link CompatBridge}
+ * @deprecated internal use only, please use {@link CompatBridge}
+ * to call methods from this class for best performance
  */
-class ChatBridge {
+@Deprecated
+public class ChatInternals {
 
 	private static Object enumTitle;
 	private static Object enumSubtitle;
@@ -37,7 +40,7 @@ class ChatBridge {
 	private static final Constructor<?> chatMessageConstructor;
 
 	// Prevent new instance, always call static methods
-	public ChatBridge() {
+	public ChatInternals() {
 	}
 
 	static {
