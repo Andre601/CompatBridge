@@ -31,13 +31,13 @@ We use Maven to compile it. See below for a step-by-step tutorial.
 </repository>
 ```
 
-2. Place this to your dependencies:
+2. Place this to your dependencies (Replace `{COMMIT}` with the latest [commit-hash]):
 
 ```xml
 <dependency>
 	<groupId>com.github.kangarko</groupId>
 	<artifactId>CompatBridge</artifactId>
-	<version>2.0.0</version> <!-- change to the latest version -->
+	<version>{COMMIT}</version> <!-- change to the latest version -->
 	<scope>compile</scope>
 </dependency>
 ```
@@ -72,3 +72,5 @@ IF YOU ALREADY HAVE A SHADE PLUGIN, ONLY USE THE RELOCATION SECTION FROM BELOW.
 ```
 
 Copyright (C) 2019. All Rights Reserved. Commercial and non-commercial use allowed as long as you provide a clear reference for the original author.  
+
+[commit-hash]: https://github.com/kangarko/CompatBridge/commits/master
